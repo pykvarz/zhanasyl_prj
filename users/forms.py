@@ -16,3 +16,5 @@ class CustomUserAuthenticationForm(AuthenticationForm):
         fields = ['username', 'password']
 
 
+class CheckKeyForm(forms.Form):
+    key = forms.CharField(label='key', max_length=100)

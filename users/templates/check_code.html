@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Check key</title>
+</head>
+<body>
+Check key
+<form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+    <button type="submit"> check </button>
+</form>
+</body>
+</html>
