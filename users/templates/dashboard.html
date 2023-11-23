@@ -6,5 +6,16 @@
 </head>
 <body>
 Дашборд
+
+{% if user.is_authenticated %}
+    <p>Добро пожаловать, {{ user.username }}!</p>
+    <form action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Выйти">
+    </form>
+{% else %}
+    <p>Пожалуйста, войдите.</p>
+    <!-- Ваша форма входа или другие элементы для аутентификации -->
+{% endif %}
 </body>
 </html>
