@@ -1,13 +1,12 @@
-from django.contrib.auth.decorators import permission_required, login_required
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
-from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render, redirect
-from django.urls import reverse, reverse_lazy
-from django.utils.decorators import method_decorator
+
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
+
 from django.views.generic import CreateView, TemplateView, FormView
 
-from users.decorators import has_key_user_required
 from users.forms import CustomUserCreationForm, CheckKeyForm
 from users.mixins import GroupRequiredMixin, PermRequiredMixin
 from users.models import CustomUser
@@ -37,16 +36,9 @@ class CustomUserLoginView(LoginView):
     template_name = 'login.html'
 
 
-# @method_decorator(permission_required('users.view_dashboard', login_url="/user/check"), name='dispatch')
 class DashboardView(GroupRequiredMixin, TemplateView):
     group_id = 3
     template_name = 'dashboard.html'
-
-    # def test_func(self):
-    #     return not self.request.user.groups.filter(pk=3)
-    #
-    # def handle_no_permission(self):
-    #     return HttpResponseRedirect(reverse_lazy('check'))
 
 
 class AddPermView(LoginRequiredMixin, PermRequiredMixin, FormView):
