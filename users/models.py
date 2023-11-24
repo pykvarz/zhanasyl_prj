@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser, PermissionsMixin
+from django.contrib.auth.models import AbstractUser, PermissionsMixin, Group
 
 
 # Create your models here.
@@ -21,10 +21,12 @@ class CustomUser(AbstractUser, PermissionsMixin):
         blank=True,
     )
 
+    groups = models.ManyToManyField(
+        Group,
+        related_name='customuser_groups',
+        blank=True,
+    )
+
 
 class Dashboard(models.Model):
     title = models.CharField(max_length=30)
-
-
-
-
