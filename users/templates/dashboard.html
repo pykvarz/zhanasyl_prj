@@ -13,6 +13,12 @@
         {% csrf_token %}
         <input type="submit" value="Выйти">
     </form>
+
+{% for product in user_products %}
+{{product.id}}
+{{product.name}}
+<a href="{% url 'object_detail' pk=product.pk %}">Detail</a>
+{% endfor %}
 {% else %}
     <p>Пожалуйста, войдите.</p>
     <!-- Ваша форма входа или другие элементы для аутентификации -->
