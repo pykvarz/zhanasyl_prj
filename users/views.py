@@ -9,7 +9,7 @@ from django.views.generic import CreateView, TemplateView, FormView, ListView, D
 
 from users.forms import CustomUserCreationForm, CheckKeyForm, CreateObjectForm
 from users.mixins import InGroupRequiredMixin, NotPermRequiredMixin, \
-    MyLoginPermissionRequiredMixin
+    MyLoginPermissionRequiredMixin, MyMixin
 from users.models import CustomUser, Object
 from users.service import add_perm, check_key
 
@@ -80,13 +80,17 @@ class CreateObjectView(MyLoginPermissionRequiredMixin, FormView):
         return super().form_valid(form)
 
 
-class ObjectDetailView(MyLoginPermissionRequiredMixin, UserPassesTestMixin, DetailView):
+class ObjectDetailView(MyLoginPermissionRequiredMixin, MyMixin, DetailView):
     model = Object
     template_name = 'object_detail.html'
     context_object_name = 'object'
 
-    def test_func(self):
-        return self.request.user in obj.users.all()
-
-    def handle_no_permission(self):
-        return HttpResponseRedirect(reverse_lazy("dashboard"))
+    # def test_func1(self):
+    #     if self.get_object() is not None:
+    #         if self.request.user in self.get_object().users.all():
+    #             return HttpResponseRedirect(reverse_lazy("dashboard"))
+    #     else:
+    #         return HttpResponseRedirect(reverse_lazy("dashboard"))
+    #
+    # def handle_no_permission(self):
+    #     return HttpResponseRedirect(reverse_lazy("dashboard"))
