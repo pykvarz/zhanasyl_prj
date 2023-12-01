@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit</title>
+</head>
+<body>
+Edit
+<form action="" method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit">Edit</button>
+<!--    <a href="{% url 'dashboard' %}">Back</a>-->
+</form>
+<a href="#" onclick="goBack()">Back</a>
+<script>
+    function  goBack() {
+        window.history.back();
+    }
+</script>
+</body>
+</html>

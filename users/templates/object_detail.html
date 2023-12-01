@@ -6,5 +6,10 @@
 </head>
 <body>
 {{ object.name}}
+<form action="{% url 'object_delete' object.pk  %}" method="post">
+    {% csrf_token %}
+    <input type="submit" value="Delete">
+</form>
+<a href="{% url 'object_update' pk=object.pk %}">edit</a>
 </body>
 </html>

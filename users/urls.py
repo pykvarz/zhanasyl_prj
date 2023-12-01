@@ -1,7 +1,7 @@
 from django.contrib.auth.views import LogoutView
 from django.urls import path
 from users.views import CustomUserCreateView, CustomUserLoginView, DashboardView, AddPermView, TestView, \
-    CreateObjectView, ObjectDetailView
+    CreateObjectView, ObjectDetailView, ObjectDeleteView, ObjectUpdateView, ObjectCreateView
 
 urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
@@ -12,4 +12,8 @@ urlpatterns = [
     path('test/', TestView.as_view(), name='test'),
     path('create/', CreateObjectView.as_view(), name='create'),
     path('detail/<int:pk>', ObjectDetailView.as_view(), name='object_detail'),
+    path(',<int:pk>/delete/', ObjectDeleteView.as_view(), name='object_delete'),
+    path('update/<int:pk>', ObjectUpdateView.as_view(), name='object_update'),
+    path('create/', ObjectCreateView.as_view(), name='object_create'),
+
 ]

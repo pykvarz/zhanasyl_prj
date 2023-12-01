@@ -24,3 +24,15 @@ class CreateObjectForm(forms.ModelForm):
     class Meta:
         model = Object
         fields = ["name"]
+
+
+class ObjectUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Object
+        fields = ["name"]
+
+
+class ObjectCreateForm(forms.ModelForm):
+    class Meta:
+        model = Object
+        fields = ["name"]

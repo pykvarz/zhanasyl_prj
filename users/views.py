@@ -1,13 +1,11 @@
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import LoginView
-from django.http import HttpResponseRedirect, Http404
 
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 
-from django.views.generic import CreateView, TemplateView, FormView, ListView, DetailView
+from django.views.generic import CreateView, TemplateView, FormView, ListView, DetailView, DeleteView, UpdateView
 
-from users.forms import CustomUserCreationForm, CheckKeyForm, CreateObjectForm
+from users.forms import CustomUserCreationForm, CheckKeyForm, CreateObjectForm, ObjectUpdateForm, ObjectCreateForm
 from users.mixins import InGroupRequiredMixin, NotPermRequiredMixin, \
     MyLoginPermissionRequiredMixin, MyMixin
 from users.models import CustomUser, Object
@@ -68,7 +66,7 @@ class TestView(TemplateView):
     template_name = 'test.html'
 
 
-class CreateObjectView(MyLoginPermissionRequiredMixin, FormView):
+class CreateObjectView(MyLoginPermissionRequiredMixin, InGroupRequiredMixin, FormView):
     model = Object
     template_name = "create.html"
     form_class = CreateObjectForm
@@ -80,17 +78,28 @@ class CreateObjectView(MyLoginPermissionRequiredMixin, FormView):
         return super().form_valid(form)
 
 
-class ObjectDetailView(MyLoginPermissionRequiredMixin, MyMixin, DetailView):
+class ObjectDetailView(MyLoginPermissionRequiredMixin,  MyMixin, DetailView):
     model = Object
     template_name = 'object_detail.html'
     context_object_name = 'object'
 
-    # def test_func1(self):
-    #     if self.get_object() is not None:
-    #         if self.request.user in self.get_object().users.all():
-    #             return HttpResponseRedirect(reverse_lazy("dashboard"))
-    #     else:
-    #         return HttpResponseRedirect(reverse_lazy("dashboard"))
-    #
-    # def handle_no_permission(self):
-    #     return HttpResponseRedirect(reverse_lazy("dashboard"))
+
+class ObjectDeleteView(MyLoginPermissionRequiredMixin, MyMixin, DeleteView):
+    model = Object
+    template_name = 'object_delete.html'
+    success_url = reverse_lazy('dashboard')
+
+
+class ObjectUpdateView(MyLoginPermissionRequiredMixin, MyMixin, UpdateView):
+    model = Object
+    form_class = ObjectUpdateForm
+    template_name = 'object_edit.html'
+    success_url = reverse_lazy('dashboard')
+
+
+class ObjectCreateView(MyLoginPermissionRequiredMixin, InGroupRequiredMixin, CreateView):
+    model = Object
+    form_class = ObjectCreateForm
+    template_name = 'object_create.html'
+    success_url = reverse_lazy("dashboard")
+    group_id = 3
